@@ -87,18 +87,18 @@ Make sure to follow the onscreen instructions!
 su [username]
 cd
 ```
-## How to Install Homework 1 Program
-Leave the terminal or command prompt open and go to my [github page](https://github.com/saehyuns/hw1). Download the zip containing my homework 1 files and store / unzip it into the designated docker directory.
+## How to Install Homework 2 Program
+Leave the terminal or command prompt open and go to my [github page](https://github.com/saehyuns/hw2). Download the zip containing my homework 2 files and store / unzip it into the designated docker directory.
 
 Now start up a new terminal or command prompt tab or window and go to your designated docker directory, and copy the files into your container. In my case:
 ```
 cd Desktop/Docker
-chmod -R 0777 hw1-master
-docker cp /Users/SaeHyunSong/Desktop/Docker/hw1-master [Container Name]:/home/[user name]/
+chmod -R 0777 hw2-master
+docker cp /Users/SaeHyunSong/Desktop/Docker/hw2-master [Container Name]:/home/[user name]/
 ```
-Now go back to your container and cd into the hw1-master directory and voila we're all done with the installation process!
+Now go back to your container and cd into the hw2-master directory and voila we're all done with the installation process!
 
-## How to Run Homework 1 Program
+## How to Run Homework 2 Program
 Go to the catalog directory and start up the server, default hostname: 127.0.0.10 and port: 5000:
 ```
 cd catalog
@@ -135,7 +135,7 @@ sqlite3 mydb2
 DROP TABLE BOOKS;
 .exit
 ```
-Then run everything again from the [beginning](#how-to-run-homework-1-program).
+Then run everything again from the [beginning](#how-to-run-homework-2-program).
 If you get any errors, refer to the [Error Conditions Section](#error-conditions).
 
 # Overview
