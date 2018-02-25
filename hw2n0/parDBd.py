@@ -27,7 +27,6 @@ def Main(argv):
         return
     # print ("Server: recv " + str(data));
     datap = data.split("$");
-    print("Datap", datap);
     id = 0;
     if datap[2].find("mydb1") > -1:
       id = 1;

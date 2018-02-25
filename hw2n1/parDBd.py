@@ -32,10 +32,7 @@ def Main(argv):
 
     # Connect to sqlite database in node1 directory and execute DDL command.
     try:
-      print("Database: " + datas[0].strip('/'));
-      print("Command: " + datas[1]);
       condb = sqlite3.connect(datas[0].strip('/'));
-      print(sqlite3.version);
       cur = condb.cursor();
       cur.execute(datas[1]);
       message = "./books.sql success.$" + host + ":" +  str(port) + "$" + datas[0] + "$" + str(cur.fetchall());
