@@ -1,11 +1,11 @@
-# Homework 1: DDL Processing for a Parallel DBMS
-* [Homework 1 Page](https://lipyeow.github.io/ics421s18/morea/pardb/experience-hw1.html)
+# Homework 2: Naive SQL Processing for Parallel DBMS
+* [Homework 2 Page](https://lipyeow.github.io/ics421s18/morea/queryproc/experience-hw2.html)
 * [Installation](#installation)
   * [Install Docker Containers](#install-docker-containers)
   * [Setup a Docker Container](#setup-a-docker-container)
   * [Setup Python](#setup-python)
-  * [How to Install Homework 1 Program](#how-to-install-homework-1-program)
-  * [How to Run Homework 1 Program](#how-to-run-homework-1-program)
+  * [How to Install Homework 2 Program](#how-to-install-homework-2-program)
+  * [How to Run Homework 2 Program](#how-to-run-homework-2-program)
 * [Overview](#overview)
   * [Directory Structure](#directory-structure)
   * [File and Program Descriptions](#file-and-program-descriptions)
