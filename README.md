@@ -99,28 +99,46 @@ docker cp /Users/SaeHyunSong/Desktop/Docker/hw2-master [Container Name]:/home/[u
 Now go back to your container and cd into the hw2-master directory and voila we're all done with the installation process!
 
 ## How to Run Homework 2 Program
+Go to the hw-2 master directory:
+```
+cd hw2-master
+```
+
 Go to the catalog directory and start up the server, default hostname: 127.0.0.10 and port: 5000:
 ```
-cd catalog
-python3 parDBd.py &
+cd hw2n0
+python3 parDBd.py 127.0.0.10 5000 &
 ```
 
 Go to the node1 directory and start up the server with the commandline arguments that match the cluster.cfg file's hostname and port number:
 ```
-cd node1
+cd hw2n1
 python3 parDBd.py 127.0.0.2 5000 &
 ```
 
 Go to the node2 directory and start up the server with the commandline arguments that match the cluster.cfg file's hostname and port number:
 ```
-cd node2
+cd hw2n2
 python3 parDBd.py 127.0.0.3 5000 &
 ```
 
-Go back to the hw1 directory and run the shell script run.sh:
+Now run the loadCSV.py program to add some initial contents to the
+database from the books.csv file, with a specified partition method.
+Hash Partition:
+```
+python3 loadCSV.py hash.cfg books.csv
+```
+Range Partition:
+```
+python3 loadCSV.py range.cfg books.csv
+```
+
+Now run the shell script run.sh in the catalog directory to run the
+SQL query stored in books.sql:
 ```
 ./run.sh cluster.cfg books.sql
 ```
+
 You should then see the [expected output](#expected-output).
 
 If you want to do this again, make sure to delete the tables in the mydb1 and mydb2 databases by doing:
@@ -440,12 +458,23 @@ The runDDL program takes in two commandline arguments which are cluster.cfg and 
 ## Expected Output and Error Conditions
 
 ### Expected Output
-The expected output should be:
+The expected output for loadCSV.py should be:
 ```
+[127.0.0.2:5000/mydb1]: 1 rows inserted.
+[127.0.0.10:5000/mycatdb]: catalog updated.
+[127.0.0.3:5000/mydb2]: 1 rows inserted.
+[127.0.0.10:5000/mycatdb]: catalog updated.
+```
+
+The expect output for runSQL.py should be:
+```
+[(123323232, Database Systems, Ramakrishnan, Raghu), (123323232, Database Systems, Ramakrishnan, Raghu)]
 [127.0.0.2:5000/mydb1]: ./books.sql success.
-[127.0.0.1:5000/mycatdb]: catalog updated.
+[(234323423, Operating Systems, Silberstein, Adam), (234323423, Operating Systems, Silberstein, Adam)]
 [127.0.0.3:5000/mydb2]: ./books.sql success.
-[127.0.0.1:5000/mycatdb]: catalog updated.
+[127.0.0.10:5000/mycatdb]: catalog updated.
+[127.0.0.10:5000/mycatdb]: catalog updated.
+DONE
 ```
 
 ### Error Conditions
