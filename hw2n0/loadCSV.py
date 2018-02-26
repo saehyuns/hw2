@@ -1,3 +1,4 @@
+# Import needed packages
 import socket
 
 import re
@@ -12,7 +13,9 @@ import multiprocessing
 
 import csv
 
+# Load function that takes commandline arguments
 def load(argv):
+  # Initialize variables
   tname = '';
   nodedriver = ''; 
   nodeurl = '';
@@ -29,14 +32,19 @@ def load(argv):
   tables = [];
 
   parType = '';
-
+  
+  # If the config file is of type range partition run this part of the code
   if (argv[1] == "range.cfg"):
     parType = "range";
+
+    # Open the config file for reading
     configFile = open(argv[1], "r");
     configData = configFile.read().strip().replace("\n", ";").split(";");
     configData = list(filter(('').__ne__, configData));
     print(argv[1], configData);
     configFile.close();
+
+    # Parse through the config file and assign them into variables
     for d in configData:
       if d.strip():
         temp = d.strip().split("=");
@@ -70,15 +78,19 @@ def load(argv):
             if temp[0].find("param2") > -1:
               partparam2 = temp[1];
               tables.append(Table(tname, nodedriver, nodeurl, nodeuser, nodepasswd, partmtd, nodeid, partcol, partparam1, partparam2));
-    tables[0].displayTable();
-    tables[1].displayTable();
+
+  # If the config file is of type hash partition run this part of the code
   elif argv[1] == "hash.cfg":
     parType = "hash";
+   
+    # Open the config file to reading
     configFile = open(argv[1], "r");
     configData = configFile.read().strip().replace("\n", ";").split(";");
     configData = list(filter(('').__ne__, configData));
     print(argv[1], configData);
     configFile.close();
+   
+    # Parse through the data and store them into variables
     for d in configData:
       if d.strip():
         temp = d.strip().split("=");
@@ -101,18 +113,18 @@ def load(argv):
           if temp[0].find("param1") > -1:
             partparam1 = temp[1];
     tables.append(Table(tname, nodedriver, nodeurl, nodeuser, nodepasswd, partmtd, nodeid, partcol, partparam1, partparam2));
-    tables[0].displayTable();
-    print(tables[0]);
+  # If it is neither of the config file, print error message
   else:
     print("The config file has to be 'hash.cfg' or 'range.cfg'!");
     parType = "none";
   
+  # Read from books.csv
   if (argv[2] == "books.csv"):
     csvFile = open(argv[2], "r");
     csvReader = csv.reader(csvFile, delimiter=",")
     for row in csvReader:
       csvData.append(row);
-    print(csvData);
+  # If it is not books.csv, print error message
   else:
     print("Please enter 'books.csv' as the second commandline argument!");
   
@@ -123,6 +135,7 @@ def load(argv):
   hostname = temp[0];
   port = temp[1];
 
+  # If partition type is hash run this part of the code
   if parType == "hash":
     nodes =  [];
     for i in range (0, len(csvData)):
@@ -180,7 +193,7 @@ def load(argv):
 
     mySocket.close();
     
-
+  # If the partition type is range, run this part of the code
   elif parType == "range":
     nodes =  [];
     for i in range (0, len(csvData)):
@@ -191,12 +204,9 @@ def load(argv):
         tables[1].nodeid = 2;
         nodes.append(tables[1].nodeid);
 
-    print(nodes);
-
     message = database;
     for node in nodes:
       message += "$" + str(node);
-    print("MESSAGE", message);
 
     mySocket = socket.socket();
     mySocket.connect((str(hostname), int(port)));
@@ -229,7 +239,6 @@ def load(argv):
       command = "insert into books (isbn, title, price) values (" + "'" + csvData[i][0] + "', " + "'" + csvData[i][1] + "', " + "'" + csvData[i][2] + "');";
 
       message += "$" + command;
-      print(message);
       mySocket.send(message.encode());
       received = mySocket.recv(1024).decode();
 

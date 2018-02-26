@@ -1,3 +1,4 @@
+# Import necessary libraries / packages
 import re
 
 import socket
@@ -10,7 +11,9 @@ from sqlite3 import Error
 
 import multiprocessing
 
+# Function called runSQL takes in two commandline arguments
 def runSQL(argv):
+  # Initialize variables
   url = '';
   hostname = '';
   port = '';
@@ -24,21 +27,26 @@ def runSQL(argv):
   data = [];
   ddlCommands = [];
 
+  # Read int he cluster.cfg
   if argv[1] == "cluster.cfg":
     configFile = open(argv[1], "r");
     data = configFile.read().strip().replace("\n", ";").split(";");
     data = list(filter(('').__ne__, data));
     configFile.close();
+  # Print error messag eif not cluster.cfg
   else:
     print("Please enter 'cluster.cfg' as the first commandline argument!");
+  # Read in an .sql file
   if '.sql' in argv[2]:
     ddlFile = open(argv[2], "r");
     ddlCommands = ddlFile.read().strip().replace("\n", ";").split(";");
     ddlCommands = list(filter(('').__ne__, ddlCommands));
     ddlFile.close();
+  # Print Error is not an .sql file.
   else:
     print("Please enter '[Insert Table Name].sql' as the first commandline argument!");
 
+  # Parse the data and store into variabels
   for d in data:
     if d.strip():
       temp = d.strip().split("=");
@@ -59,20 +67,23 @@ def runSQL(argv):
 
   numnodes = len(nodes);
   
+  # Multiprocessing / threading portion
   p1 = multiprocessing.Process(target=connect, args=(nodes[0], nodes[1], ddlCommands, tablename,));  
   p2 = multiprocessing.Process(target=connect, args=(nodes[0], nodes[2], ddlCommands, tablename,));  
   
+  # Start the multi threading process
   p1.start();
   p2.start();
 
+  # "Join" the two threads
   p1.join();
   p2.join();
   
+  # Print done when both processes are done
   print("DONE");
 
+# Function called connec that performs DDL on given servers via threading
 def connect(catalogNode, serverNode, commands, tablename):
-  # URL: 172.17.0.2:5000/mydb1 HOSTNAME: 172.17.0.2 PORT: 5000 DB: mydb1
-  # node.displayNode();
   url = serverNode.url;
   hostname = serverNode.hostname;
   port = serverNode.port;
