@@ -627,6 +627,26 @@ Another error condition would be if the server is not finished shutting down, it
 OSError: [Errno 98] Address already in use
 ```
 
+Another error condition is if the ./books.sql in loadCSV.py program fails no rows will be inserted and the catalog will not be updated:
+```
+[127.0.0.2:5000/mydb1]: ./books.sql failure.
+[127.0.0.2:5000/mydb1]: 0 rows inserted.
+[127.0.0.3:5000/mydb2]: ./books.sql success.
+[127.0.0.3:5000/mydb2]: 1 rows inserted.
+[127.0.0.10:5000/mycatdb]: catalog updated.
+```
+
+Another error condition is that if the runSQL.py query fails, the catalog will not be updated and you will
+not be able to see the result of the query:
+```
+[127.0.0.2:5000/mydb1]: ./books.sql failure.
+[(234323423, Operating Systems, Silberstein, Adam)]
+[127.0.0.3:5000/mydb2]: ./books.sql success.
+[127.0.0.10:5000/mycatdb]: catalog updated.
+DONE
+```
+
+
 # Cheat Sheets
 
 ## Docker Cheat Sheet
