@@ -41,7 +41,6 @@ def load(argv):
     configFile = open(argv[1], "r");
     configData = configFile.read().strip().replace("\n", ";").split(";");
     configData = list(filter(('').__ne__, configData));
-    print(argv[1], configData);
     configFile.close();
 
     # Parse through the config file and assign them into variables
@@ -87,7 +86,6 @@ def load(argv):
     configFile = open(argv[1], "r");
     configData = configFile.read().strip().replace("\n", ";").split(";");
     configData = list(filter(('').__ne__, configData));
-    print(argv[1], configData);
     configFile.close();
    
     # Parse through the data and store them into variables
@@ -182,7 +180,6 @@ def load(argv):
 
       receivedp = received.split("$");
 
-      print("[" + dbNodes[i] + "]: " + receivedp[0]);
       print("[" + dbNodes[i] + "]: " + str(count) + " rows inserted.");
       message = str(tables[0].tname) + "$" + str(tables[0].nodedriver) + "$" + dbNodes[i] + "$" + str(tables[0].nodeuser) + "$" + str(tables[0].nodepasswd) + "$" + str(tables[0].partmtd) + "$" + str(tables[0].partcol) + "$" + str(tables[0].partparam1) + "$" + str(tables[0].partparam2);
       mySocket = socket.socket();
@@ -244,7 +241,6 @@ def load(argv):
 
       receivedp = received.split("$");
 
-      print("[" + dbNodes[i] + "]: " + receivedp[0]);
       print("[" + dbNodes[i] + "]: " + str(count) + " rows inserted.");
       message = str(tables[0].tname) + "$" + str(tables[0].nodedriver) + "$" + dbNodes[i] + "$" + str(tables[0].nodeuser) + "$" + str(tables[0].nodepasswd) + "$" + str(tables[0].partmtd) + "$" + str(tables[0].partcol) + "$" + str(tables[0].partparam1) + "$" + str(tables[0].partparam2);
       mySocket = socket.socket();
